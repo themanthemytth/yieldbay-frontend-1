@@ -16,11 +16,13 @@ import {
   clear as clearToast,
   setBlock,
 } from './actions'
-import { State, Farm, Pool, Block, ProfileState, TeamsState, AchievementState, PriceState } from './types'
+import { State, Farm, Pool, Block, ProfileState, TeamsState, AchievementState, PriceState, Round } from './types'
 import { fetchProfile } from './profile'
 import { fetchTeam, fetchTeams } from './teams'
 import { fetchAchievements } from './achievements'
 import { fetchPrices } from './prices'
+import { initializePredictions } from './predictions'
+import { transformRoundResponse } from './predictions/helpers'
 
 const ZERO = new BigNumber(0)
 
@@ -227,4 +229,25 @@ export const useGetApiPrice = (token: string) => {
 // Block
 export const useBlock = (): Block => {
   return useSelector((state: State) => state.block)
+}
+
+// Predictions
+export const useInitializePredictions = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(initializePredictions())
+  }, [dispatch])
+}
+
+export const useGetRounds = () => {
+  const rounds = useSelector((state: State) => state.predictions.rounds)
+
+  return useMemo(() => {
+    return Object.values(rounds).map(transformRoundResponse)
+  }, [rounds])
+}
+
+export const useGetCurrentEpoch = () => {
+  return useSelector((state: State) => state.predictions.currentEpoch)
 }

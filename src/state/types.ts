@@ -127,6 +127,58 @@ export interface Block {
   blockNumber: number
 }
 
+// Predictions
+
+export enum Position {
+  UP = 'up',
+  DOWN = 'down',
+}
+
+export enum PredictionStatus {
+  INITIAL = 'initial',
+  LIVE = 'live',
+  PAUSED = 'paused',
+}
+
+export interface RoundResponse {
+  epoch: number
+  startBlock: number
+  lockBlock: number
+  endBlock: number
+  lockPrice: number
+  closePrice: number
+  totalAmount: number
+  bullAmount: number
+  bearAmount: number
+  rewardBaseCalAmount: number
+  rewardAmount: number
+  oracleCalled: boolean
+}
+
+export interface Round {
+  epoch: number
+  startBlock: number
+  lockBlock: number
+  endBlock: number
+  lockPrice: BigNumber
+  closePrice: BigNumber
+  totalAmount: BigNumber
+  bullAmount: BigNumber
+  bearAmount: BigNumber
+  rewardBaseCalAmount: BigNumber
+  rewardAmount: BigNumber
+  oracleCalled: boolean
+}
+
+export interface PredictionsState {
+  status: PredictionStatus
+  currentEpoch: number
+  isLoading: boolean
+  rounds: {
+    [key: string]: RoundResponse
+  }
+}
+
 // Global state
 
 export interface State {
@@ -134,6 +186,7 @@ export interface State {
   toasts: ToastsState
   prices: PriceState
   pools: PoolsState
+  predictions: PredictionsState
   profile: ProfileState
   teams: TeamsState
   achievements: AchievementState
