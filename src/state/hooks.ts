@@ -247,6 +247,10 @@ export const useBlock = (): Block => {
 }
 
 // Predictions
+export const useIsHistoryPaneOpen = () => {
+  return useSelector((state: State) => state.predictions.isHistoryPaneOpen)
+}
+
 export const useInitializePredictions = () => {
   const dispatch = useDispatch()
 
